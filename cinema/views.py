@@ -23,7 +23,7 @@ from cinema.serializers import (
 )
 
 
-class GenreListView(APIView):
+class GenreList(APIView):
     def get(self, request: Request) -> Response:
         genres = Genre.objects.all()
         serializer = GenreSerializer(genres, many=True)
@@ -37,7 +37,7 @@ class GenreListView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class GenreDetailView(APIView):
+class GenreDetail(APIView):
     def get_object(self, pk: int) -> Genre:
         return get_object_or_404(Genre, pk=pk)
 
@@ -64,12 +64,12 @@ class GenreDetailView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request: Request, pk: int) -> Response:
-        genre = Genre.objects.get(pk=pk)
+        genre = get_object_or_404(Genre, pk=pk)
         genre.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ActorListView(
+class ActorList(
     GenericAPIView,
     ListModelMixin,
     CreateModelMixin
@@ -84,7 +84,7 @@ class ActorListView(
         return self.create(request, *args, **kwargs)
 
 
-class ActorDetailView(
+class ActorDetail(
     GenericAPIView,
     RetrieveModelMixin,
     UpdateModelMixin,
