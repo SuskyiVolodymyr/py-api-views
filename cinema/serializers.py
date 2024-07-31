@@ -22,12 +22,10 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
-    actors = ActorSerializer(read_only=True, many=True)
-    genres = GenreSerializer(read_only=True, many=True)
 
     class Meta:
         model = Movie
-        fields = "__all__"
+        fields = ("title", "description", "duration")
 
 
 class CinemaHallSerializer(serializers.ModelSerializer):
